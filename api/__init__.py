@@ -16,3 +16,5 @@ api = ApiSwaggerFix(
 )
 
 api.add_namespace(bioaccess_namespace)
+
+#Final Updatable Version
