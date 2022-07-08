@@ -2468,7 +2468,6 @@ class ClassCheckFreeze(Resource):
 
 @namespace.route("/02_get_screenshot")
 class ClassGetScreenshot(Resource):
-
     def get_screenshot(self, host,port,username,password):
         result = {}
         ssh = paramiko.SSHClient()
@@ -2488,42 +2487,49 @@ class ClassGetScreenshot(Resource):
         #Get _ImagesLog
         target_path = result['target_path']
 
-
         #Erase any previous screenshot
         command = 'pwd'
+        #print('executing command:',command)
         stdin, stdout, stderr = ssh.exec_command(command)
         lines = stdout.readlines()
         source_path = lines[0]
+        #print('command response:',lines)
         source_path = re.sub(r"[^a-z. /\^A-Z, ^0-9]","",source_path)
 
         #Take screenshot
         command = 'xwd -out screenshot.xwd -root -display :0.0'
+        #print('executing command:',command)
         stdin, stdout, stderr = ssh.exec_command(command)
         lines = stdout.readlines()
+        #print('command response:',lines)
         now = datetime.datetime.now()
 
         screenshot_file_name = str(date.today()) + '_' + str(now.strftime("%H_%M_%S"))+'.jpg'
-        print('*'*50)
-        print(screenshot_file_name)
         command = 'convert screenshot.xwd ' + screenshot_file_name
+        #print('executing command:',command)
         stdin, stdout, stderr = ssh.exec_command(command)
         lines = stdout.readlines()
+        #print('command response:',lines)
 
         source_path_file = source_path+'/'+screenshot_file_name
-        print('source_path_file:',source_path_file)
+        #print('source_path_file:',source_path_file)
 
         target_path_file =  target_path + screenshot_file_name
-        print('target_path_file:',target_path_file)
+        #print('target_path_file:',target_path_file)
 
         sftp.get(source_path_file,target_path_file)
 
         command = 'rm ' + source_path+'/'+screenshot_file_name
+        #print('executing command:',command)
         stdin, stdout, stderr = ssh.exec_command(command)
         lines = stdout.readlines()
+        #print('command response:',lines)
 
         command = 'rm ' + source_path+'/screenshot.xwd'
+        #print('executing command:',command)
         stdin, stdout, stderr = ssh.exec_command(command)
         lines = stdout.readlines()
+        #print('command response:',lines)
 
         sftp.close()
         ssh.close()
