@@ -1,0 +1,119 @@
+Init Start with Default values.
+URL_Base: https://157.55.183.132/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 157.55.183.132
+MAC_address: 48:B0:2D:15:E4:26
+Access_Code: 25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403
+Device: 48:B0:2D:15:E4:26
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 187.210.6.45
+processing:  17  on device: 187.210.6.45
+Users to process:  17
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDoxNTpFNDoyNiIsImlhdCI6MTY1NzcxNDg1OSwiZXhwIjoxNjU3NzMyODU5fQ.bUPzxf6TI78xxRsmCpPNMiaHmSkcg9JOEo8ehxlm_aA
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:99:8A
+Access_Code: 29b851372ef6fb51c56a5b9c5dc76bda1f2b452288747b4e9fe38e4aa4a3c7f7
+Device: 48:B0:2D:3D:99:8A
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.25
+processing:  21  on device: 10.2.11.25
+Users to process:  21
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo5OTo4QSIsImlhdCI6MTY1NzcxNDg2NCwiZXhwIjoxNjU3NzMyODY0fQ.MCI-DjYN9WWhNRL7-hh1fYrmoAmH5JreBgDpLEqQeyU
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:7B:D1
+Access_Code: 91f2cbf5bfa76d8f3a3ba7b42016ec8ef94893dae79708ca736b8fdc3ca2b18e
+Device: 48:B0:2D:3D:7B:D1
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.31
+processing:  41  on device: 10.2.11.31
+Users to process:  41
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo3QjpEMSIsImlhdCI6MTY1NzcxNDg2OCwiZXhwIjoxNjU3NzMyODY4fQ.HaI3imtSxjqG8_oooBaYhKiO0C9qbVhZWkT_ITGE7oo
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:9B:FB
+Access_Code: 702877aabe504117deed16a63486afc2f491376836d581e04c9be07037ea8568
+Device: 48:B0:2D:3D:9B:FB
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.32
+processing:  57  on device: 10.2.11.32
+Users to process:  57
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo5QjpGQiIsImlhdCI6MTY1NzcxNDg3MywiZXhwIjoxNjU3NzMyODczfQ.d7T5gWGTxvRndt9GYgVpUjZ8OowNCIN4tqHeA7gk7So
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:69:FC
+Access_Code: 98ddb416cc50f5904686bec1f7baca7ee111954057a65c77210f393f718bc720
+Device: 48:B0:2D:3D:69:FC
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.33
+processing:  127  on device: 10.2.11.33
+Users to process:  127
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo2OTpGQyIsImlhdCI6MTY1NzcxNDg3NywiZXhwIjoxNjU3NzMyODc3fQ.-UPneRk_nO8McG3hI0BEprnY_VaYqTxBn5OgCsXeYhc
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:99:9A
+Access_Code: 4b9eb89b8c6054db5a9ccb28fb275ef8be1378cb19eeeee402248d02a1d447b1
+Device: 48:B0:2D:3D:99:9A
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.34
+processing:  171  on device: 10.2.11.34
+Users to process:  171
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo5OTo5QSIsImlhdCI6MTY1NzcxNDg4MiwiZXhwIjoxNjU3NzMyODgyfQ.xRcEn7nCaJKRPVtVibzyAz08dy7-iWgDm8ZI5Lv2V4I
+Log POST Code: 200
+Init Start with Default values.
+URL_Base: https://10.200.19.17/sba_hub/API/public/index.php/api/v1/hubapi
+HUB_IP: 10.200.19.17
+MAC_address: 48:B0:2D:3D:9B:CF
+Access_Code: 586aa974c7c09a8175ee56d386471acaa3051ccaf5ecea0e3ae32a36add03da8
+Device: 48:B0:2D:3D:9B:CF
+HUB_Service: /records/register
+HUB_Service: /records/register
+HUB_Service_Pending_User: /records/pending
+Initial values Finished.
+processing pending users from : 10.2.11.35
+processing:  60  on device: 10.2.11.35
+Users to process:  60
+Token response: 200
+Posting users.
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsdW1lbi1qd3QiLCJzdWIiOiI0ODpCMDoyRDozRDo5QjpDRiIsImlhdCI6MTY1NzcxNDg4NywiZXhwIjoxNjU3NzMyODg3fQ.J__qQqQQpOvVZVNKoIZLb6h0iHH-uaXj-91SVEYEo1c
+Log POST Code: 200

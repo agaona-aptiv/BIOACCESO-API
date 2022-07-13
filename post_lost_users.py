@@ -167,10 +167,10 @@ class PostService:
 
 
 if __name__ == "__main__":
-    # Explore current directory for EDT logs
-    pd_users = pd.read_excel('2022-06-21_Registros_Perdidos.xlsx')
-    pd_devices_info = pd.read_excel('dispositivos_CUPRO.xlsx')
-    pd_usuarios_info = pd.read_excel('usuarios_CUPRO.xlsx')
+    #Explore current directory for EDT logs
+    pd_users = pd.read_excel('Registros_Perdidos.xlsx')
+    pd_devices_info = pd.read_excel('dispositivos.xlsx')
+    pd_usuarios_info = pd.read_excel('usuarios.xlsx')
     devices = pd_users.device.unique()
     for device in devices:
         # Create instance of PostService
