@@ -11,7 +11,7 @@ class ApiSwaggerFix(Api):
 
 api = ApiSwaggerFix(
     title='CIDEC Bioaccess API',
-    version='1.54',
+    version='1.55',
     description='API to provide support to BIOACCESS devices',
 )
 

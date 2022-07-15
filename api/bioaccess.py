@@ -2672,6 +2672,7 @@ class ClassCheckFreeze(Resource):
 class ClassGetScreenshot(Resource):
     def get_screenshot(self, host,port,username,password):
         result = {}
+        result['host']=host
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(host, port, username, password)
@@ -2684,11 +2685,9 @@ class ClassGetScreenshot(Resource):
             os.mkdir(host + '/_Screenshot')
 
         #Job for all dates requiered
-        result['target_path'] = str(os. getcwd()) + '\\'+ host + '\\_Screenshot\\'
+        target_path = str(os. getcwd()) + '\\'+ host + '\\_Screenshot\\'
 
         #Get _ImagesLog
-        target_path = result['target_path']
-
         #Erase any previous screenshot
         command = 'pwd'
         #print('executing command:',command)
@@ -2718,6 +2717,7 @@ class ClassGetScreenshot(Resource):
 
         target_path_file =  target_path + screenshot_file_name
         #print('target_path_file:',target_path_file)
+        result['target_path'] = target_path_file
 
         sftp.get(source_path_file,target_path_file)
 
@@ -2749,16 +2749,44 @@ class ClassGetScreenshot(Resource):
         port = 22
         username = 'edt'#os.environ['EDT_USER']
         password = 'admin' #os.environ['EDT_PASSWORD']
-        respuesta={}
+        respuesta=[]
         for host in hosts:
+            host_result = {}
             print('Processing: ',host)
             try:
-                respuesta[host] = self.get_screenshot(host=host,port=port,username=username,password=password)
+                host_result = self.get_screenshot(host=host,port=port,username=username,password=password)
+                host_result['Exception'] = None
             except Exception as e:
-                print('Exception was found processing ' + host + ' : ' + str(e))
                 exception = 'Exception was found processing ' + host + ' : ' + str(e)
-                respuesta[host] = {'host':host,'exception':exception}
+                print(exception)
+                host_result['host'] = host
+                host_result['target_path'] = None
+                host_result['Exception']=exception
+            respuesta.append(host_result)                
+
+        data_set = pd.DataFrame.from_records(respuesta)
+        image_list = []
+        image_added=False
+        for image_path in data_set['target_path']:
+            print(image_path)
+            if (image_path!=None):
+                image = cv2.imread(image_path)
+                host_text = data_set[data_set['target_path']==image_path]['host'].values[0]
+                image = cv2.putText(image,host_text,(250,100),cv2.FONT_HERSHEY_TRIPLEX,1,(255,255,0), 1)
+                image_list.append(image)
+                image_added = True
+        if (image_added):
+            all_screenshot = cv2.hconcat(image_list)
+            now = datetime.datetime.now()
+            collage_image_name = 'screenshot_collage_' + str(date.today()) + '_' + str(now.strftime("%H_%M_%S"))+'.jpg'
+            cv2.imwrite(collage_image_name,all_screenshot)
         return respuesta
+
+
+
+
+
+
 
 @namespace.route("/01_status")
 class ClassStatus(Resource):
