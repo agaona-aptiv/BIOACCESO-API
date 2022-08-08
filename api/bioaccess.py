@@ -12,10 +12,10 @@ import datetime
 import time
 import os
 import cv2                                                  #python3 -m pip install opencv-python
-from Levenshtein import distance as lev                     #python310 -m pip install Levenshtein
+from Levenshtein import distance as lev                     #python3 -m pip install Levenshtein
 import pandas as pd
 import shutil
-import requests
+import requests                                             #python3 -m pip install requests
 from urllib.request import Request, urlopen 
 import urllib.request
 from PIL import Image
@@ -23,7 +23,7 @@ import ssl
 import pickle
 import shelve
 try:
-    import face_recognition                                     #python38 -m pip install face-recognition
+    import face_recognition                                     #python3 -m pip install face-recognition
 except:
     pass
 try:

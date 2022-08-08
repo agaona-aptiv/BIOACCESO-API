@@ -45,6 +45,13 @@ data = {"hosts": hosts['hosts'],"initial_date": initial_date,"end_date": end_dat
 r = requests.request(method = 'post',url = URL,headers  = http_headers,data = json.dumps(data))
 print('Result: ',r.text)
 
+#Screenshot
+URL = 'http://127.0.0.1:5000/Bioaccess/02_get_screenshot'
+print('Get Screenshot collage: '  +  str(json.dumps(hosts)))
+data = {"hosts": hosts['hosts']}
+r = requests.request(method = 'post',url = URL,headers  = http_headers,data = json.dumps(data))
+print('Result: ',r.text)
+
 #Get Logs
 #URL = 'http://127.0.0.1:5000/Bioaccess/08_get_logs'
 #initial_date = str(date.today() - datetime.timedelta(days=1))
