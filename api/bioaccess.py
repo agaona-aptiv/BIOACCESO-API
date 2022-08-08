@@ -1,5 +1,5 @@
 #http://localhost:5000/
-from warnings import catch_warnings
+#from warnings import catch_warnings
 from enum import Enum
 from flask import request, current_app as app               # python3 -m pip install flask-restx
 from flask_restx import Namespace, Resource, fields
@@ -22,8 +22,9 @@ from PIL import Image
 import ssl
 import pickle
 import shelve
+import ctypes
 try:
-    import face_recognition                                     #python3 -m pip install face-recognition
+    import face_recognition                                   #python3 -m pip install face-recognition
 except:
     pass
 try:
@@ -107,9 +108,10 @@ status_model_data = namespace.inherit("DeviceStatusData",
     {
         "hosts": fields.String(description="place the IP address list to get status log", 
             example=
-            "['CARSO'"+
+            "['BIOACCESO'" + 
+            ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA1','CELAYA2','CELAYA3','CELAYA4','CELAYA5','CELAYA6']",
+            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
     },
 )
@@ -129,7 +131,11 @@ get_config_Config_Pkl_DBs_model = namespace.inherit("GetConfigPklDBs",
 get_logs_model_data = namespace.inherit("DeviceGetLogs",
     {
         "hosts": fields.String(description="place the IP address list to get Bioaccess logs", 
-            example="['CARSO','CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35']", 
+            example=
+            "['BIOACCESO'" + 
+            ",'CARSO'"+
+            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
+            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
         "initial_date": fields.String(description="place the initial date to start getting logs", 
             example= str(date.today() - datetime.timedelta(days=1)), 
@@ -153,9 +159,10 @@ get_ethernet_model_info = namespace.inherit("GetEthernetInfo",
     {
         "hosts": fields.String(description="place the IP address list to get Bioaccess logs", 
             example=
-            "['CARSO'"+
+            "['BIOACCESO'" + 
+            ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA4','CELAYA3','CELAYA2','CELAYA1']", 
+            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
     },
 )
@@ -167,7 +174,7 @@ get_screenshot_model = namespace.inherit("GetScreenshot",
             "['BIOACCESO'" + 
             ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA4','CELAYA3','CELAYA2','CELAYA1']", 
+            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
     },
 )
@@ -176,8 +183,8 @@ check_freeze_model = namespace.inherit("checkFreezeData",
     {
         "hosts": fields.String(description="Check if there is a freeze by screenshot this method spends at least 15 seconds by host", 
             example=
-            "[" + 
-            "'CARSO'"+
+            "['BIOACCESO'" + 
+            ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
             ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
@@ -214,7 +221,8 @@ analize_images_model = namespace.inherit("analizeImagesLog",
         "hosts": fields.String(
             description="IP list address of the hosts you plan to analize Image logs", 
             example=
-            "['CARSO'"+
+            "['BIOACCESO'" + 
+            ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
             ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True
@@ -265,7 +273,7 @@ clear_logs_model_data = namespace.inherit("DeviceClearLogs",
             "['BIOACCESO'" + 
             ",'CARSO'"+
             ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA4','CELAYA3','CELAYA2','CELAYA1']", 
+            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
             required=True),
         "initial_date": fields.String(description="place the initial date to start cleaning logs", 
             example= str(date.today() - datetime.timedelta(days=14)), 
@@ -323,7 +331,8 @@ verify_PKL_vs_HUB_model = namespace.inherit("validate_pkl_vs_hub",
     {
         "hosts": fields.String(
             description="IP list address of the devices that you want to check vs", 
-            example="['CARSO']", 
+            example=
+            "['BIOACCESO']",
             required=True
             ),
         "hub_address": fields.String(description="write the IP list address or host list names to verify", 
@@ -799,30 +808,33 @@ class ClassSudoReboot(Resource):
     @namespace.response(code=400, description="Request Validation Error")
     @namespace.response(code=500, description="Internal Server Error")
     def post(self):
-        """Get status information from a device given the place name and a range of dates"""
-        app.logger.info(f"json = {request.json}")
-        hosts = eval(request.json['hosts'])
-        port = 22
-        username = 'edt'#os.environ['EDT_USER']
-        password = 'admin' #os.environ['EDT_PASSWORD']
-        respuesta={}
-        results=[]
-        for host in hosts:
-            print('Processing: ',host)
-            try:
-                results.append(self.sudo_reboot(host=host,port=port,service='sba',username=username,password=password))
-                results.append(self.sudo_reboot(host=host,port=port,service='rest',username=username,password=password))
-                results.append(self.sudo_reboot(host=host,port=port,service='handler',username=username,password=password))
-                time.sleep(5)
-                results.append(self.sudo_reboot(host=host,port=port,service='reboot',username=username,password=password))
-            except Exception as e:
-                print('Exception was found processing ' + host + ' : ' + str(e))
-                exception = 'Exception was found processing ' + host + ' : ' + str(e)
-                respuesta = {'host':host,'exception':exception}
-                results.append(respuesta)
+        confirmation = ctypes.windll.user32.MessageBoxW(0, "Are sure to do SUDO REBOOT??", "SUDO REBOOT confirming..", 1,0x40000)
+        results=['Cancelled by the user']
+        if (confirmation == 1):
+            """Get status information from a device given the place name and a range of dates"""
+            app.logger.info(f"json = {request.json}")
+            hosts = eval(request.json['hosts'])
+            port = 22
+            username = 'edt'#os.environ['EDT_USER']
+            password = 'admin' #os.environ['EDT_PASSWORD']
+            respuesta={}
+            results=[]
+            for host in hosts:
+                print('Processing: ',host)
+                try:
+                    results.append(self.sudo_reboot(host=host,port=port,service='sba',username=username,password=password))
+                    results.append(self.sudo_reboot(host=host,port=port,service='rest',username=username,password=password))
+                    results.append(self.sudo_reboot(host=host,port=port,service='handler',username=username,password=password))
+                    time.sleep(5)
+                    results.append(self.sudo_reboot(host=host,port=port,service='reboot',username=username,password=password))
+                except Exception as e:
+                    print('Exception was found processing ' + host + ' : ' + str(e))
+                    exception = 'Exception was found processing ' + host + ' : ' + str(e)
+                    respuesta = {'host':host,'exception':exception}
+                    results.append(respuesta)
 
-        data_set = pd.DataFrame.from_records(results)
-        print(data_set)
+            data_set = pd.DataFrame.from_records(results)
+            print(data_set)
 
         return results
 
@@ -861,28 +873,31 @@ class ClassSoftReboot(Resource):
     @namespace.response(code=400, description="Request Validation Error")
     @namespace.response(code=500, description="Internal Server Error")
     def post(self):
-        """Get status information from a device given the place name and a range of dates"""
-        app.logger.info(f"json = {request.json}")
-        hosts = eval(request.json['hosts'])
-        port = 22
-        username = 'edt'#os.environ['EDT_USER']
-        password = 'admin' #os.environ['EDT_PASSWORD']
-        respuesta={}
-        results=[]
-        for host in hosts:
-            print('Processing: ',host)
-            try:
-                results.append(self.soft_reboot(host=host,port=port,service='sba',username=username,password=password))
-                results.append(self.soft_reboot(host=host,port=port,service='rest',username=username,password=password))
-                results.append(self.soft_reboot(host=host,port=port,service='handler',username=username,password=password))
-            except Exception as e:
-                print('Exception was found processing ' + host + ' : ' + str(e))
-                exception = 'Exception was found processing ' + host + ' : ' + str(e)
-                respuesta = {'host':host,'exception':exception}
-                results.append(respuesta)
+        confirmation = ctypes.windll.user32.MessageBoxW(0, "Are sure to do Soft Reboot??", "Soft Reboot confirming..", 1,0x40000)
+        results=['Cancelled by the user']
+        if (confirmation == 1):        
+            """Get status information from a device given the place name and a range of dates"""
+            app.logger.info(f"json = {request.json}")
+            hosts = eval(request.json['hosts'])
+            port = 22
+            username = 'edt'#os.environ['EDT_USER']
+            password = 'admin' #os.environ['EDT_PASSWORD']
+            respuesta={}
+            results=[]
+            for host in hosts:
+                print('Processing: ',host)
+                try:
+                    results.append(self.soft_reboot(host=host,port=port,service='sba',username=username,password=password))
+                    results.append(self.soft_reboot(host=host,port=port,service='rest',username=username,password=password))
+                    results.append(self.soft_reboot(host=host,port=port,service='handler',username=username,password=password))
+                except Exception as e:
+                    print('Exception was found processing ' + host + ' : ' + str(e))
+                    exception = 'Exception was found processing ' + host + ' : ' + str(e)
+                    respuesta = {'host':host,'exception':exception}
+                    results.append(respuesta)
 
-        data_set = pd.DataFrame.from_records(results)
-        print(data_set)
+            data_set = pd.DataFrame.from_records(results)
+            print(data_set)
 
         return results
 
