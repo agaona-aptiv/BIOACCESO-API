@@ -391,6 +391,20 @@ set_post_lost_users = namespace.inherit("post_lost_users",
     },
 )
 
+send_command_model = namespace.inherit("send_command",
+    {
+        "hosts": fields.String(
+            description="IP list address of the devices that you send terminal command", 
+            example="['BIOACCESO']", 
+            required=True
+            ),
+        "command": fields.String(description="command to be send example:  ls -l ,   sudo /usr/sbin/nvpmodel -m 5", 
+            example= "sudo /usr/sbin/nvpmodel -m 4", 
+            required=True),
+    },
+)
+
+
 # Enum used for different response codes
 class ResponseCode(Enum):
     OK = 200
@@ -474,6 +488,65 @@ class BearerAuth(requests.auth.AuthBase):
         r.headers["authorization"] = "Bearer " + self.token
         return r
 
+@namespace.route("/21_send_command")
+class ClassSendCommand(Resource):
+    def send_command(self,host,port,username,password,command):
+        result={}
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(host, port, username, password)
+        try:
+            result['host']=host
+            result['Exception'] = 'NA'
+
+            session = ssh.get_transport().open_session()
+            session.set_combine_stderr(True)
+            session.get_pty()        
+            session.exec_command(command)
+            stdin = session.makefile('wb', -1)
+            stdout = session.makefile('rb', -1)
+            stdin.write(password + '\n')
+            stdin.flush()
+            command_comment = str(stdout.readlines())
+            result['status'] = command_comment
+        except Exception as e:
+            result['status'] = command_comment
+            result['Exception'] = str(e)
+        
+        ssh.close()        
+        return result
+
+            
+    @namespace.expect(send_command_model, validate=True)
+    @namespace.response(code=200, description="Success")
+    @namespace.response(code=400, description="Request Validation Error")
+    @namespace.response(code=500, description="Internal Server Error")
+    def post(self):
+        """Get status information from a device given the place name and a range of dates"""
+        app.logger.info(f"json = {request.json}")
+        hosts = eval(request.json['hosts'])
+        command = str(request.json['command'])
+        port = 22
+        username = 'edt'        #os.environ['EDT_USER']
+        password = 'admin'      #os.environ['EDT_PASSWORD']
+        respuesta={}
+        results=[]
+        for host in hosts:
+            print('Processing: ',host)
+            print('executing : ',command)
+            try:
+                results.append(self.send_command(host=host,port=port,username=username,password=password,command=command))
+            except Exception as e:
+                print('Exception was found processing ' + host + ' : ' + str(e))
+                exception = 'Exception was found processing ' + host + ' : ' + str(e)
+                respuesta = {'host':host,'exception':exception}
+                results.append(respuesta)
+
+        data_set = pd.DataFrame.from_records(results)
+        print(data_set)
+
+        return results
+
 @namespace.route("/20_post_lost_users")
 class ClassPostLostUsers(Resource):
 
@@ -556,7 +629,6 @@ class ClassPostLostUsers(Resource):
         usuarios_info_file = str(request.json['usuarios_info_file'])
         results = self.post_lost_users_from_files(lost_users_file,devices_info_file,usuarios_info_file)
         return results
-
 
 @namespace.route("/19_mant_mode")
 class ClassSetMaintenance(Resource):
@@ -2781,12 +2853,6 @@ class ClassGetScreenshot(Resource):
             collage_image_name = 'screenshot_collage_' + str(date.today()) + '_' + str(now.strftime("%H_%M_%S"))+'.jpg'
             cv2.imwrite(collage_image_name,all_screenshot)
         return respuesta
-
-
-
-
-
-
 
 @namespace.route("/01_status")
 class ClassStatus(Resource):
