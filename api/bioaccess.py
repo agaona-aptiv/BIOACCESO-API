@@ -397,6 +397,9 @@ set_post_lost_users = namespace.inherit("post_lost_users",
         "usuarios_info_file": fields.String(description="Excel file with user information #Empleado, ID_Seguimiento. Nombre, Apellido Etc.  you can get this file from HUB usuers ", 
             example= "usuarios.xlsx", 
             required=True),
+        "hub_security": fields.String(description="Set as true for https (default) and false for http", 
+            example= "True", 
+            required=True),
     },
 )
 
@@ -420,8 +423,13 @@ class ResponseCode(Enum):
     UNAUTHORIZED = 401
     SERVICE_UNAVAILABLE = 503
 class PostService:
-    def __init__(self,MAC_address = '48:B0:2D:15:E4:26',Access_Code = '25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403', hub_name_or_IP = '157.55.183.132'):
-        url_base='https://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
+    def __init__(self,MAC_address = '48:B0:2D:15:E4:26',Access_Code = '25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403', hub_name_or_IP = '157.55.183.132', hub_security = True):
+        
+        if hub_security == True:
+            url_base='https://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
+        else:
+            url_base='http://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
+       
         print('Init Start with Default values.')
         self.URL_Base = url_base
         self.HUB_IP = hub_name_or_IP
@@ -559,7 +567,7 @@ class ClassSendCommand(Resource):
 @namespace.route("/20_post_lost_users")
 class ClassPostLostUsers(Resource):
 
-    def post_lost_users_from_files(self,lost_users_file,devices_info_file,usuarios_info_file):
+    def post_lost_users_from_files(self,lost_users_file,devices_info_file,usuarios_info_file,hub_security):
         results=[]
         result = {'action':'loading files'}
         results.append(result)
@@ -583,7 +591,7 @@ class ClassPostLostUsers(Resource):
             mac_address = pd_devices_info[pd_devices_info['IP_Address'] == device]['MAC_Address'].values[0]
             access_code= pd_devices_info[pd_devices_info['IP_Address'] == device]['Access_Code'].values[0]
             hub_IP= pd_devices_info[pd_devices_info['IP_Address'] == device]['hub_name_or_IP'].values[0]
-            postServiceInst = PostService(MAC_address = mac_address,Access_Code = access_code, hub_name_or_IP = hub_IP)
+            postServiceInst = PostService(MAC_address = mac_address,Access_Code = access_code, hub_name_or_IP = hub_IP,hub_security = hub_security)
             print('processing pending users from :', device)
             pd_users_in_device = pd_users[pd_users['device'] == device]
             collectedUsers = []
@@ -636,7 +644,8 @@ class ClassPostLostUsers(Resource):
         lost_users_file = str(request.json['lost_users_file'])
         devices_info_file = str(request.json['devices_info_file'])
         usuarios_info_file = str(request.json['usuarios_info_file'])
-        results = self.post_lost_users_from_files(lost_users_file,devices_info_file,usuarios_info_file)
+        hub_security = eval(str(request.json['hub_security']))
+        results = self.post_lost_users_from_files(lost_users_file,devices_info_file,usuarios_info_file,hub_security)
         return results
 
 @namespace.route("/19_mant_mode")
