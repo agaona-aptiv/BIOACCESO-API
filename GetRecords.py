@@ -1,4 +1,6 @@
 import requests                                             #python3 -m pip install requests
+import pickle
+from cryptography.fernet import Fernet                      #python3 -m pip install cryptography
 #from urllib.request import Request, urlopen 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -50,14 +52,27 @@ def GetRecords(user,password,hub,from_date,to_date,sap="",device="",site=""):
     data_set = pd.DataFrame.from_records(user_record_list)
     return data_set
 
+def get_user_info(entry_info='entry_info.pkl'):
+    with open(entry_info, 'rb') as file:
+        user_password = pickle.load(file)
+        fernet = Fernet(user_password['key'])
+        userID = user_password['userID']
+        password = fernet.decrypt(user_password['encPassword']).decode()
+        return userID, password 
+
 if __name__ == '__main__':
     day_to_report = str(date.today() - timedelta(days=1))
     from_date = day_to_report + ' 00:00:00'
     to_date = day_to_report + ' 23:59:59'
 
+    #Get Records from CARSO
+    user, password = get_user_info(entry_info = 'CARSO.pkl')
+    hub = 'CARSO_HUB'                #Solo la IP del HUB o el Alias del HUB arnelec o como le llamen ejemplo  https://IP_DEL_HUB/sba_hub
+    data_set = GetRecords(user=user,password=password,hub=hub,from_date=from_date,to_date=to_date)
+    data_set.to_excel(day_to_report +'_'+hub+ '_Registros.xlsx',sheet_name='registros', index=False)
+
     #Get Records from CUPRO
-    user = 'admin-SBA'                  #El user del HUB
-    password = 'SB4p4ssw0rd*21'         #El password del HUB
-    hub = '10.200.19.17'                #Solo la IP del HUB o el Alias del HUB arnelec o como le llamen ejemplo  https://IP_DEL_HUB/sba_hub
+    user, password = get_user_info(entry_info = 'CUPRO.pkl')
+    hub = 'CUPRO'                 #Solo la IP del HUB o el Alias del HUB arnelec o como le llamen ejemplo  https://IP_DEL_HUB/sba_hub
     data_set = GetRecords(user=user,password=password,hub=hub,from_date=from_date,to_date=to_date)
     data_set.to_excel(day_to_report +'_'+hub+ '_Registros.xlsx',sheet_name='registros', index=False)
