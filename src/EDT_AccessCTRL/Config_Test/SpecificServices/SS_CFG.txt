@@ -1,0 +1,15 @@
+[SS_Configuration]
+hw_compatibility = 99
+facial_recognition = 1
+temp_detection = 1
+door_access = 1
+facemask = 1
+send_info_to_hub = 1
+white_balance = 1
+upper_temp_limit = 37.5
+lower_temp_limit = 34.5
+dba_ip = 192.168.1.158
+hub_url = https://malibu.condumex.com.mx/sba_hub/API/public/index.php/api/v1/hubapi
+face_recognition_rate = 0.0
+access_code = b31f57cbd7ed3b5d6c80c191dd658bc6ee661c3155d9ffc29488b48fbce35bdc
+

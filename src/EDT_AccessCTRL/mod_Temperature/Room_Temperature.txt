@@ -1,0 +1,8 @@
+[Room Temperature]
+error = Token not sent.
+region = Jurica
+temperature = 32.5
+feels_like = 30.26
+humidity = 16
+timestamp = 1686611675
+

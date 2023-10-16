@@ -1,0 +1,6 @@
+log_formatter: '%(asctime)s - %(levelname)s - %(message)s'
+log_level: INFO
+splash: false
+target: false
+width: 600
+height: 1024

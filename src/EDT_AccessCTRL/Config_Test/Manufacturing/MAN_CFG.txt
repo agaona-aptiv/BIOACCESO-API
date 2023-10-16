@@ -1,0 +1,5 @@
+[MAN_Configuration]
+sw_id = 0426
+hw_type = 999
+serial_number = B0033
+mac_address = 48:B0:2D:15:DF:F3

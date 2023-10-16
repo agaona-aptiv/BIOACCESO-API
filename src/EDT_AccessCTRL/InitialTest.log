@@ -1,0 +1,6 @@
+
+Test Executed: 2020-10-21 02:39:42
+Video 0 Interface TEST PASSED: /dev/video0 was found
+Video 1 Interface TEST PASSED: /dev/video1 was found
+GPIO Interfaces TEST PASSED
+Device Temperature TEST PASSED:-85.0632387753063

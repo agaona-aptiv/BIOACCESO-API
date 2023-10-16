@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+"""EDT_AccessCTRL UI
+
+Usage:
+  EDT_AccessCTRL help
+  EDT_AccessCTRL version
+  EDT_AccessCTRL ui [--target] [--splash]
+
+Options:
+    --help            Show this help
+    --version         Version
+    --target          Configure graphics features for target
+    --splash          Show splash screen 
+"""
+import sys
+from docopt import docopt
+from main_HMI import *
+
+core = core.Core()
+__version__ = core.version
+
+def help():
+    print(__doc__)
+
+def version():
+    print('Version %s' % __version__)
+
+def ui(args):
+    EDT_HMI.app(core)
+
+if __name__ == '__main__':
+    args = docopt(__doc__, version=__version__)
+    core.set_debug(args.get('--debug', False))
+    if args.get('--target'):
+        core.config['target'] = True
+    if args.get('--splash'):
+        core.config['splash'] = True
+    if args.get('help'):
+        help()
+    elif args.get('version'):
+        version()
+    elif args.get('ui'):
+        ui(args)
