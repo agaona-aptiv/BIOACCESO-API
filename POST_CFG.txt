@@ -1,6 +1,0 @@
-[POST_Configuration]
-device_id = 48:B0:2D:15:E4:26
-access_code = 25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403
-[SERVER_CONFIGURATION]
-hub_url = https://157.55.183.132/sba_hub/API/public/index.php/api/v1/hubapi
-hub_url_2 = https://157.55.183.132/sba_hub/API/public/index.php/api/v1/hubapi
