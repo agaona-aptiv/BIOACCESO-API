@@ -66,10 +66,10 @@ if __name__ == '__main__':
     to_date = day_to_report + ' 23:59:59'
 
     #Get Records from CARSO
-    user, password = get_user_info(entry_info = 'CARSO.pkl')
-    hub = 'CARSO_HUB'                #Solo la IP del HUB o el Alias del HUB arnelec o como le llamen ejemplo  https://IP_DEL_HUB/sba_hub
-    data_set = GetRecords(user=user,password=password,hub=hub,from_date=from_date,to_date=to_date)
-    data_set.to_excel(day_to_report +'_'+hub+ '_Registros.xlsx',sheet_name='registros', index=False)
+    #user, password = get_user_info(entry_info = 'CARSO.pkl')
+    #hub = 'CARSO_HUB'                #Solo la IP del HUB o el Alias del HUB arnelec o como le llamen ejemplo  https://IP_DEL_HUB/sba_hub
+    #data_set = GetRecords(user=user,password=password,hub=hub,from_date=from_date,to_date=to_date)
+    #data_set.to_excel(day_to_report +'_'+hub+ '_Registros.xlsx',sheet_name='registros', index=False)
 
     #Get Records from CUPRO
     user, password = get_user_info(entry_info = 'CUPRO.pkl')

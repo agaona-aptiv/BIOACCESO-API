@@ -90,16 +90,14 @@ Light_Gray="\033[0;37m"
 White="\033[1;37m"
 '''
 
+HOSTS = "['CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35']"
+
 namespace = Namespace("Bioaccess", description="Bioaccess Reports")
 
 check_DBL_model_data = namespace.inherit("DBLStatusData",
     {
         "hosts": fields.String(description="Check that DBL list ID are implemented on the device list", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -107,11 +105,7 @@ check_DBL_model_data = namespace.inherit("DBLStatusData",
 status_model_data = namespace.inherit("DeviceStatusData",
     {
         "hosts": fields.String(description="place the IP address list to get status log", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -119,11 +113,7 @@ status_model_data = namespace.inherit("DeviceStatusData",
 get_config_Config_Pkl_DBs_model = namespace.inherit("GetConfigPklDBs",
     {
         "hosts": fields.String(description="place the IP address list to get UserFaceIDs.pkl and Users_Database.db", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -131,11 +121,7 @@ get_config_Config_Pkl_DBs_model = namespace.inherit("GetConfigPklDBs",
 get_logs_model_data = namespace.inherit("DeviceGetLogs",
     {
         "hosts": fields.String(description="place the IP address list to get Bioaccess logs", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
         "initial_date": fields.String(description="place the initial date to start getting logs", 
             example= str(date.today() - datetime.timedelta(days=1)), 
@@ -158,11 +144,7 @@ get_logs_model_data = namespace.inherit("DeviceGetLogs",
 get_ethernet_model_info = namespace.inherit("GetEthernetInfo",
     {
         "hosts": fields.String(description="place the IP address list to get Bioaccess logs", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -170,11 +152,7 @@ get_ethernet_model_info = namespace.inherit("GetEthernetInfo",
 get_screenshot_model = namespace.inherit("GetScreenshot",
     {
         "hosts": fields.String(description="place the IP address list to get screenshot", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -182,11 +160,7 @@ get_screenshot_model = namespace.inherit("GetScreenshot",
 check_freeze_model = namespace.inherit("checkFreezeData",
     {
         "hosts": fields.String(description="Check if there is a freeze by screenshot this method spends at least 15 seconds by host", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
     },
 )
@@ -220,11 +194,7 @@ analize_images_model = namespace.inherit("analizeImagesLog",
     {
         "hosts": fields.String(
             description="IP list address of the hosts you plan to analize Image logs", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True
             ),
         "initial_date": fields.String(description="place the initial date to start getting logs", 
@@ -269,11 +239,7 @@ update_file_model = namespace.inherit("updateFile",
 clear_logs_model_data = namespace.inherit("DeviceClearLogs",
     {
         "hosts": fields.String(description="place the IP address list to get Bioaccess logs", 
-            example=
-            "['BIOACCESO'" + 
-            ",'CARSO'"+
-            ",'CUPRO25','CUPRO31','CUPRO32','CUPRO33','CUPRO34','CUPRO35'"+
-            ",'CELAYA6','CELAYA5','CELAYA4','CELAYA3','CELAYA2','CELAYA1']",
+            example=HOSTS,
             required=True),
         "initial_date": fields.String(description="place the initial date to start cleaning logs", 
             example= str(date.today() - datetime.timedelta(days=14)), 
@@ -397,9 +363,6 @@ set_post_lost_users = namespace.inherit("post_lost_users",
         "usuarios_info_file": fields.String(description="Excel file with user information #Empleado, ID_Seguimiento. Nombre, Apellido Etc.  you can get this file from HUB usuers ", 
             example= "usuarios.xlsx", 
             required=True),
-        "hub_security": fields.String(description="Set as true for https (default) and false for http", 
-            example= "True", 
-            required=True),
     },
 )
 
@@ -423,13 +386,8 @@ class ResponseCode(Enum):
     UNAUTHORIZED = 401
     SERVICE_UNAVAILABLE = 503
 class PostService:
-    def __init__(self,MAC_address = '48:B0:2D:15:E4:26',Access_Code = '25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403', hub_name_or_IP = '157.55.183.132', hub_security = True):
-        
-        if hub_security == True:
-            url_base='https://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
-        else:
-            url_base='http://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
-       
+    def __init__(self,MAC_address = '48:B0:2D:15:E4:26',Access_Code = '25d972a06e15afff70caffad2c258a92a1a9d154513ed251e46a3b5d708d3403', hub_name_or_IP = '157.55.183.132'):
+        url_base='https://'+ hub_name_or_IP +'/sba_hub/API/public/index.php/api/v1/hubapi'
         print('Init Start with Default values.')
         self.URL_Base = url_base
         self.HUB_IP = hub_name_or_IP
@@ -567,7 +525,7 @@ class ClassSendCommand(Resource):
 @namespace.route("/20_post_lost_users")
 class ClassPostLostUsers(Resource):
 
-    def post_lost_users_from_files(self,lost_users_file,devices_info_file,usuarios_info_file,hub_security):
+    def post_lost_users_from_files(self,lost_users_file,devices_info_file,usuarios_info_file):
         results=[]
         result = {'action':'loading files'}
         results.append(result)
@@ -591,7 +549,7 @@ class ClassPostLostUsers(Resource):
             mac_address = pd_devices_info[pd_devices_info['IP_Address'] == device]['MAC_Address'].values[0]
             access_code= pd_devices_info[pd_devices_info['IP_Address'] == device]['Access_Code'].values[0]
             hub_IP= pd_devices_info[pd_devices_info['IP_Address'] == device]['hub_name_or_IP'].values[0]
-            postServiceInst = PostService(MAC_address = mac_address,Access_Code = access_code, hub_name_or_IP = hub_IP,hub_security = hub_security)
+            postServiceInst = PostService(MAC_address = mac_address,Access_Code = access_code, hub_name_or_IP = hub_IP)
             print('processing pending users from :', device)
             pd_users_in_device = pd_users[pd_users['device'] == device]
             collectedUsers = []
@@ -644,8 +602,7 @@ class ClassPostLostUsers(Resource):
         lost_users_file = str(request.json['lost_users_file'])
         devices_info_file = str(request.json['devices_info_file'])
         usuarios_info_file = str(request.json['usuarios_info_file'])
-        hub_security = eval(str(request.json['hub_security']))
-        results = self.post_lost_users_from_files(lost_users_file,devices_info_file,usuarios_info_file,hub_security)
+        results = self.post_lost_users_from_files(lost_users_file,devices_info_file,usuarios_info_file)
         return results
 
 @namespace.route("/19_mant_mode")
@@ -700,7 +657,6 @@ class ClassSetMaintenance(Resource):
         sftp.close()
         ssh.close()        
         return result
-
     def set_wall_paper(self,host,port,username,password,source_file):
         result={}
         ssh = paramiko.SSHClient()
