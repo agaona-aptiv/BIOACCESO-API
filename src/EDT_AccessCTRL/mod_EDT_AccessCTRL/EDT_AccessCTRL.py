@@ -531,8 +531,8 @@ class EDT_AccessCTRL:
         #userID = self._userInfo[ac_cfg.USER_ID]
         userID = user_id_evaluated
         monitorID = userID
-        name = 'Usuario'
-        last_name = 'Sin_Registro'
+        name = 'Bienvenido'
+        last_name = 'Visita'
         try:
             # @TODO: Remove keys when they are standard
             with shelve.open(ac_cfg.USERS_DB_PATH + ac_cfg.USERS_DB_NAME, 'r') as userDatabase:
